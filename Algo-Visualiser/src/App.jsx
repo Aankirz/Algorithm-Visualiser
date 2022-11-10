@@ -1,39 +1,58 @@
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 import './App.css'
 
-function App() {
+import getBubbleSort from './sortingAlgos/bubbleSort';
+
+import Animation from './sortingAlgos/animation';
+
+export default function App() {
   const [numArray,setNumArray]=useState([10,19,18]);
 
-  const generateArray=()=>{
-    const arr=[];
-    for(let i=0;i<10;i++){
-      arr.push(Math.floor(Math.random()*80)+1)
-      
-    }
-
-    setNumArray(arr);
-  }
   
-console.log(numArray)
+  useEffect(()=>{
+    resetArray
+  })
+
+  function resetArray(){
+    let array=[];
+    for(let i=0;i<15;i++){
+      array.push(randomInt(5,80))
+    }
+    setNumArray(array)
+  } 
+  function quickSort(){
+    
+  }
+  function bubbleSort(){
+      let [animationArray,array]=getBubbleSort(numArray);
+      Animation(animationArray);
+  }
+
   return (
+
     <div className="App">
      <div className="sorting-options">
-      <button>Merge Sort</button>
-      <button>Bubble Sort</button>
+      <button onClick={quickSort}>Quick Sort</button>
       <button>Insertion Sort</button>
 
      </div>
     { numArray.map((element,index)=>(
       <div className="array-bar" key={index} style={{width:`${element}rem`}} >
-        {element}
-        {console.log(element)}
+      {/* {element} */}
       </div>
      ))}
      <div className="generateArray-Btn">
-      <button onClick={generateArray}>Generate Array</button>
+      <button onClick={resetArray}>Generate Array</button>
+      <button onClick={()=>bubbleSort()}>Bubble Sort</button>
+
      </div>
     </div>
   )
+
+
 }
 
-export default App
+function randomInt(min,max){
+  return Math.floor(Math.random()*(max-min+1)+min);
+}
+
